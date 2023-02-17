@@ -3,8 +3,8 @@
 # ------------------------------------------------------
 
 type Book {
-  id: ID!
-  title: String!
+  id: ID
+  title: String
   description: String
 }
 
