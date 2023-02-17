@@ -16,7 +16,7 @@ export class AuthorResolver {
   }
 
   @Query((returns) => [Author], { nullable: true })
-  async author() {
+  async author(@Context() ctx) {
     return this.authorsService.findAuthors();
   }
 }

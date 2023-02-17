@@ -1,13 +1,13 @@
 import { Field, InputType } from '@nestjs/graphql';
 import {
   IsAlpha,
-  IsArray,
   IsEmail,
   IsNotEmpty,
   IsString,
   Matches,
 } from 'class-validator';
 import { BookDto } from 'src/book/dto/book.dto';
+import { Book } from 'src/book/models/book.model';
 
 @InputType()
 export class AuthorDto {
@@ -35,7 +35,7 @@ export class AuthorDto {
   @IsEmail()
   email: string;
 
-  @Field()
-  @IsArray()
-  books: BookDto[];
+  // @Field((type) => [BookDto], { nullable: true })
+  // @IsArray()
+  // books: [BookDto];
 }

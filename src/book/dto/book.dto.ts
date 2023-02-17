@@ -11,5 +11,5 @@ export class BookDto {
   @IsAlpha()
   @IsNotEmpty()
   @Field()
-  Description: string;
+  description: string;
 }

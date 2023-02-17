@@ -5,6 +5,7 @@ import {
 } from '@prisma/client/runtime';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthorDto } from './dto/author.dto';
+import { Author } from './models/author.model';
 
 @Injectable()
 export class AuthorService {
@@ -38,7 +39,7 @@ export class AuthorService {
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         throw new ForbiddenException(
-          'User with these credentials already exist',
+          'Author with these credentials already exist',
         );
       } else if (error instanceof PrismaClientValidationError) {
         throw new ForbiddenException('Invalid credentials');
