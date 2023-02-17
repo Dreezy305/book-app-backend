@@ -1,5 +1,11 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsAlpha, IsEmail, IsNotEmpty, Matches } from 'class-validator';
+import {
+  IsAlpha,
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Matches,
+} from 'class-validator';
 
 @InputType()
 export class AuthorDto {
@@ -14,15 +20,16 @@ export class AuthorDto {
   lastName: string;
 
   @IsAlpha()
+  @IsString()
   @Field()
   address?: string;
 
-  @IsEmail()
   @IsNotEmpty()
   @Matches(
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
     { message: 'email must be a valid email' },
   )
   @Field()
+  @IsEmail()
   email: string;
 }

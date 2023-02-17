@@ -1,4 +1,4 @@
-import { ForbiddenException, HttpStatus, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import {
   PrismaClientKnownRequestError,
   PrismaClientValidationError,
@@ -10,15 +10,7 @@ import { AuthorDto } from './dto/author.dto';
 export class AuthorService {
   constructor(private prisma: PrismaService) {}
 
-  async findAuthors() {
-    return {
-      id: 1,
-      email: 'bankoleidris@gmail.com',
-      firstName: 'Idris',
-      lastName: 'Bankole',
-    };
-  }
-
+  // CREATE AUTHOR VIA PRISMA SERVICE
   async createAuthor(authorDto: AuthorDto): Promise<any> {
     await this.prisma.$connect();
     //   check if author exists
@@ -42,12 +34,7 @@ export class AuthorService {
         },
       });
 
-      return {
-        success: true,
-        data: author,
-        status: HttpStatus.CREATED,
-        message: 'Author created successfully',
-      };
+      return author;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         throw new ForbiddenException(
@@ -55,6 +42,20 @@ export class AuthorService {
         );
       } else if (error instanceof PrismaClientValidationError) {
         throw new ForbiddenException('Invalid credentials');
+      } else {
+        throw error;
+      }
+    }
+  }
+
+  // FIND AUTHOR VIA PRISMA SERVICE
+  async findAuthors() {
+    try {
+      const authors = this.prisma.author.findMany();
+      return authors;
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new ForbiddenException('No Data');
       } else {
         throw error;
       }

@@ -1,24 +1,28 @@
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { IsAlpha, IsEmail, IsString } from 'class-validator';
 import { Book } from 'src/book/models/book.model';
-// import { Post } from './post';
 
 @ObjectType()
 export class Author {
-  @Field(() => Int, { nullable: true })
+  @Field(() => ID, { nullable: true })
   id: number;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
+  @IsAlpha()
   firstName: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
+  @IsAlpha()
   lastName: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
+  @IsEmail()
   email: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
+  @IsString()
   address?: string;
 
-  //   @Field(() => [Book], { nullable: true })
-  //   books: Book[];
+  @Field(() => [Book], { nullable: true })
+  books: Book[];
 }
