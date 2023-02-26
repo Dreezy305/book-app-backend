@@ -24,5 +24,5 @@ export class Author {
   address?: string;
 
   @Field(() => [Book], { nullable: true })
-  books: Book[];
+  books?: [Book];
 }

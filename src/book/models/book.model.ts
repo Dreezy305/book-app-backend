@@ -16,9 +16,6 @@ export class Book {
   @IsAlpha()
   description?: string;
 
-  @Field(() => ID, { nullable: true })
-  authorId: number;
-
-  @Field((type) => Author, { nullable: true })
+  @Field(() => Author, { nullable: true })
   author?: Author | null;
 }

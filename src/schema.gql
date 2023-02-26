@@ -6,7 +6,6 @@ type Book {
   id: ID
   title: String
   description: String
-  authorId: ID
   author: Author
 }
 
@@ -33,9 +32,10 @@ input AuthorDto {
   lastName: String!
   address: String!
   email: String!
+  books: [BookDto!]
 }
 
 input BookDto {
   title: String!
-  description: String!
+  description: String
 }

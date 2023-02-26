@@ -5,7 +5,6 @@ import {
 } from '@prisma/client/runtime';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthorDto } from './dto/author.dto';
-import { Author } from './models/author.model';
 
 @Injectable()
 export class AuthorService {
@@ -26,15 +25,23 @@ export class AuthorService {
     }
 
     try {
+      const bookData = authorDto.books?.map((book) => {
+        return {
+          title: book.title,
+          description: book.description || null,
+        };
+      });
       const author = await this.prisma.author.create({
         data: {
           fistName: authorDto.firstName,
           lastName: authorDto.lastName,
           email: authorDto.email,
           address: authorDto.address,
+          books: {
+            create: bookData,
+          },
         },
       });
-
       return author;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
