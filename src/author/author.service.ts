@@ -61,7 +61,9 @@ export class AuthorService {
   // FIND AUTHOR VIA PRISMA SERVICE
   async findAuthors() {
     try {
-      const authors = this.prisma.author.findMany({ include: { books: true } });
+      const authors = await this.prisma.author.findMany({
+        include: { books: true },
+      });
       return authors;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
@@ -120,7 +122,6 @@ export class AuthorService {
     try {
       const removeAuthor = this.prisma.author.delete({
         where: { id: id },
-        include: { books: true },
       });
       return removeAuthor;
     } catch (error) {
