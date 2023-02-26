@@ -1,4 +1,4 @@
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthorService } from './author.service';
 import { AuthorDto } from './dto/author.dto';
 import { Author } from './models/author.model';
@@ -7,8 +7,7 @@ import { Author } from './models/author.model';
 export class AuthorResolver {
   constructor(private authorsService: AuthorService) {}
 
-  // CREATE AUTHOR MUTATION
-  @Mutation((returns) => Author)
+  @Mutation(() => Author)
   async createAuthor(
     @Args('authorDto') authorDto: AuthorDto,
     @Context() ctx,
@@ -16,11 +15,15 @@ export class AuthorResolver {
     return this.authorsService.createAuthor(authorDto);
   }
 
-  // FIND ALL AUTHORS MUTATION
-  @Query((returns) => [Author], { nullable: true })
-  async author(@Context() ctx) {
+  // FIND ALL AUTHORS
+  @Query(() => [Author], { nullable: true })
+  async authors(@Context() ctx) {
     return this.authorsService.findAuthors();
   }
 
-  // FIND AN AUTHOR
+  // FIND A SINGLE AUTHOR
+  @Query(() => Author, { nullable: true })
+  async author(@Args('id', { type: () => ID }) id: string, @Context() ctx) {
+    return this.authorsService.findAuthor(id);
+  }
 }

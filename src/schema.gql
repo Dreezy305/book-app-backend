@@ -20,8 +20,10 @@ type Author {
 }
 
 type Query {
-  author: [Author!]
+  authors: [Author!]
+  author(id: ID!): Author
   books: [Book!]
+  book(id: ID!): Book
 }
 
 type Mutation {

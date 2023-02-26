@@ -74,4 +74,19 @@ export class BookService {
   }
 
   // FIND A BOOK BY ID VIA PRISMA SERVICE
+  async findBook(id: string) {
+    try {
+      const book = await this.prisma.book.findUnique({
+        where: { id: id },
+        include: { author: true },
+      });
+      return book;
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new ForbiddenException('No Data');
+      } else {
+        throw error;
+      }
+    }
+  }
 }

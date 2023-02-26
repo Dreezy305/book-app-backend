@@ -74,7 +74,7 @@ export class AuthorService {
   // FIND AN AUTHOR VIA PRISMA SERVICE
   async findAuthor(id: string) {
     try {
-      const author = this.prisma.author.findUnique({
+      const author = await this.prisma.author.findUnique({
         where: { id: id },
         include: { books: true },
       });

@@ -1,4 +1,4 @@
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { BookService } from './book.service';
 import { BookDto } from './dto/book.dto';
 import { Book } from './models/book.model';
@@ -21,5 +21,11 @@ export class BookResolver {
   @Query(() => [Book], { nullable: true })
   async books(@Context() ctx) {
     return this.bookService.findBooks();
+  }
+
+  // FIND A BOOK VIA PRISMA SERVICE
+  @Query(() => Book, { nullable: true })
+  async book(@Args('id', { type: () => ID }) id: string, @Context() ctx) {
+    return this.bookService.findBook(id);
   }
 }
