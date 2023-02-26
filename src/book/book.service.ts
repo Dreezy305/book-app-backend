@@ -60,8 +60,9 @@ export class BookService {
   // FIND ALL BOOKS VIA PRISMA SERVICE
   async findBooks() {
     try {
-      const books = await this.prisma.book.findMany();
-      console.log(books);
+      const books = this.prisma.book.findMany({
+        include: { author: true },
+      });
       return books;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
