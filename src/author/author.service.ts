@@ -23,14 +23,16 @@ export class AuthorService {
     if (checkIfAuthorExist) {
       throw new ForbiddenException('Author with these credentials exists');
     }
+    const bookData = authorDto.books?.map((book) => {
+      return {
+        title: book.title,
+        description: book.description || null,
+      };
+    });
+
+    console.log(bookData);
 
     try {
-      const bookData = authorDto.books?.map((book) => {
-        return {
-          title: book.title,
-          description: book.description || null,
-        };
-      });
       const author = await this.prisma.author.create({
         data: {
           fistName: authorDto.firstName,
@@ -41,7 +43,9 @@ export class AuthorService {
             create: bookData,
           },
         },
+        include: { books: true },
       });
+      console.log(author);
       return author;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
@@ -59,7 +63,7 @@ export class AuthorService {
   // FIND AUTHOR VIA PRISMA SERVICE
   async findAuthors() {
     try {
-      const authors = this.prisma.author.findMany();
+      const authors = this.prisma.author.findMany({ include: { books: true } });
       return authors;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
