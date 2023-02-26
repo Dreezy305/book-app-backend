@@ -92,7 +92,6 @@ export class AuthorService {
   // UPDATE AUTHOR INFO VIA PRISMA SERVICE
   async updateAuthor(authorDto: UpdateAuthorDto, id: string): Promise<any> {
     await this.prisma.$connect();
-
     try {
       const author = await this.prisma.author.update({
         where: { id: id },
@@ -102,8 +101,28 @@ export class AuthorService {
           address: authorDto.address,
         },
       });
-      console.log(author);
       return author;
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new ForbiddenException(
+          'Author with these credentials already exist',
+        );
+      } else if (error instanceof PrismaClientValidationError) {
+        throw new ForbiddenException('Invalid credentials');
+      } else {
+        throw error;
+      }
+    }
+  }
+
+  // DELETE AUTHOR VIA PRISMA SERVICE
+  async deleteAuthor(id: string): Promise<any> {
+    try {
+      const removeAuthor = this.prisma.author.delete({
+        where: { id: id },
+        include: { books: true },
+      });
+      return removeAuthor;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         throw new ForbiddenException(

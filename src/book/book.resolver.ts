@@ -28,4 +28,14 @@ export class BookResolver {
   async book(@Args('id', { type: () => ID }) id: string, @Context() ctx) {
     return this.bookService.findBook(id);
   }
+
+  // DELETE BOOK VIA PRISMA SERVICE
+  @Mutation(() => Book)
+  async deleteAuthor(
+    @Args('id', { type: () => ID }) id: string,
+    @Context()
+    ctx,
+  ) {
+    return this.bookService.deleteBook(id);
+  }
 }

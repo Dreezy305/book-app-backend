@@ -29,6 +29,7 @@ type Query {
 type Mutation {
   createAuthor(authorDto: AuthorDto!): Author!
   editAuthor(authorDto: UpdateAuthorDto!, id: ID!): Author!
+  deleteAuthor(id: ID!): Book!
   createBook(bookDto: BookDto!, authorId: String!): Book!
 }
 

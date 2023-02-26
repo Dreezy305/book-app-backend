@@ -38,4 +38,14 @@ export class AuthorResolver {
   ): Promise<Author> {
     return this.authorsService.updateAuthor(authorDto, id);
   }
+
+  // DELETE AUTHOR RECORD
+  @Mutation(() => Author)
+  async deleteAuthor(
+    @Args('id', { type: () => ID }) id: string,
+    @Context()
+    ctx,
+  ) {
+    return this.authorsService.deleteAuthor(id);
+  }
 }

@@ -89,4 +89,24 @@ export class BookService {
       }
     }
   }
+
+  // DELETE BOOK VIA PRISMA SERVICE
+  async deleteBook(id: string): Promise<any> {
+    try {
+      const removeBook = this.prisma.book.delete({
+        where: { id: id },
+      });
+      return removeBook;
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new ForbiddenException(
+          'Book with these credentials already exist',
+        );
+      } else if (error instanceof PrismaClientValidationError) {
+        throw new ForbiddenException('Invalid credentials');
+      } else {
+        throw error;
+      }
+    }
+  }
 }
