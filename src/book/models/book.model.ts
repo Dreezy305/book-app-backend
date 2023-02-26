@@ -21,5 +21,5 @@ export class Book {
   authorId: string;
 
   @Field(() => Author, { nullable: true })
-  author?: Author | null;
+  author?: Author;
 }

@@ -56,4 +56,19 @@ export class BookService {
       }
     }
   }
+
+  // FIND ALL BOOKS VIA PRISMA SERVICE
+  async findBooks() {
+    try {
+      const books = await this.prisma.book.findMany();
+      console.log(books);
+      return books;
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new ForbiddenException('No Data');
+      } else {
+        throw error;
+      }
+    }
+  }
 }
