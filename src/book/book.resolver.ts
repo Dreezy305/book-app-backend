@@ -31,7 +31,7 @@ export class BookResolver {
 
   // DELETE BOOK VIA PRISMA SERVICE
   @Mutation(() => Book)
-  async deleteAuthor(
+  async deleteBook(
     @Args('id', { type: () => ID }) id: string,
     @Context()
     ctx,
