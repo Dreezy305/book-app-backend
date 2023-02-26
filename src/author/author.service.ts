@@ -5,6 +5,7 @@ import {
 } from '@prisma/client/runtime';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthorDto } from './dto/author.dto';
+import { UpdateAuthorDto } from './dto/update-author.dto';
 
 @Injectable()
 export class AuthorService {
@@ -82,6 +83,34 @@ export class AuthorService {
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         throw new ForbiddenException('No Data');
+      } else {
+        throw error;
+      }
+    }
+  }
+
+  // UPDATE AUTHOR INFO VIA PRISMA SERVICE
+  async updateAuthor(authorDto: UpdateAuthorDto, id: string): Promise<any> {
+    await this.prisma.$connect();
+
+    try {
+      const author = await this.prisma.author.update({
+        where: { id: id },
+        data: {
+          fistName: authorDto.firstName,
+          lastName: authorDto.lastName,
+          address: authorDto.address,
+        },
+      });
+      console.log(author);
+      return author;
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new ForbiddenException(
+          'Author with these credentials already exist',
+        );
+      } else if (error instanceof PrismaClientValidationError) {
+        throw new ForbiddenException('Invalid credentials');
       } else {
         throw error;
       }

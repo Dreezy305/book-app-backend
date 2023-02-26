@@ -28,6 +28,7 @@ type Query {
 
 type Mutation {
   createAuthor(authorDto: AuthorDto!): Author!
+  editAuthor(authorDto: UpdateAuthorDto!, id: ID!): Author!
   createBook(bookDto: BookDto!, authorId: String!): Book!
 }
 
@@ -42,4 +43,10 @@ input AuthorDto {
 input BookDto {
   title: String!
   description: String
+}
+
+input UpdateAuthorDto {
+  firstName: String!
+  lastName: String!
+  address: String!
 }

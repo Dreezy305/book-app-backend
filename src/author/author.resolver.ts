@@ -1,6 +1,7 @@
 import { Args, Context, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthorService } from './author.service';
 import { AuthorDto } from './dto/author.dto';
+import { UpdateAuthorDto } from './dto/update-author.dto';
 import { Author } from './models/author.model';
 
 @Resolver(Author)
@@ -25,5 +26,16 @@ export class AuthorResolver {
   @Query(() => Author, { nullable: true })
   async author(@Args('id', { type: () => ID }) id: string, @Context() ctx) {
     return this.authorsService.findAuthor(id);
+  }
+
+  // UPDATE AUTHOR RECORD
+  @Mutation(() => Author)
+  async editAuthor(
+    @Args('authorDto') authorDto: UpdateAuthorDto,
+    @Args('id', { type: () => ID }) id: string,
+    @Context()
+    ctx,
+  ): Promise<Author> {
+    return this.authorsService.updateAuthor(authorDto, id);
   }
 }
