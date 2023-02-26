@@ -30,8 +30,6 @@ export class AuthorService {
       };
     });
 
-    console.log(bookData);
-
     try {
       const author = await this.prisma.author.create({
         data: {
@@ -45,7 +43,6 @@ export class AuthorService {
         },
         include: { books: true },
       });
-      console.log(author);
       return author;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
