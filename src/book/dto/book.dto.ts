@@ -3,13 +3,13 @@ import { IsAlpha, IsNotEmpty } from 'class-validator';
 
 @InputType()
 export class BookDto {
-  // @IsAlpha()
-  // @IsNotEmpty()
+  @IsAlpha()
+  @IsNotEmpty()
   @Field()
   title: string;
 
-  // @IsAlpha()
-  // @IsNotEmpty()
+  @IsAlpha()
+  @IsNotEmpty()
   @Field({ nullable: true })
   description: string;
 }

@@ -8,7 +8,7 @@ export class BookResolver {
   constructor(private bookService: BookService) {}
 
   // CREATE BOOK VIA PRISMA SERVICE
-  @Mutation((returns) => Book)
+  @Mutation(() => Book)
   async createBook(
     @Args('bookDto') bookDto: BookDto,
     @Args('authorId') authorId: string,
@@ -16,4 +16,6 @@ export class BookResolver {
   ): Promise<Book> {
     return this.bookService.createBook(bookDto, authorId);
   }
+
+  // FIND ALL BOOKS VIA PRISMA SERVICE
 }

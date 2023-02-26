@@ -23,6 +23,16 @@ export class BookService {
       throw new ForbiddenException('Book exists');
     }
 
+    const checkIfAuthorExist = await this.prisma.author.findUnique({
+      where: {
+        id: authorId,
+      },
+    });
+
+    if (!checkIfAuthorExist) {
+      throw new ForbiddenException('Invalid Author Id');
+    }
+
     try {
       const book = await this.prisma.book.create({
         data: {
@@ -30,6 +40,7 @@ export class BookService {
           description: bookDto.description,
           author: { connect: { id: authorId } },
         },
+        include: { author: true },
       });
 
       return book;
