@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Args, Context, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { BookService } from './book.service';
 import { BookDto } from './dto/book.dto';
